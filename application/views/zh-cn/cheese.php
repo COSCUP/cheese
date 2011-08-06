@@ -12,7 +12,7 @@ body{
 	overflow:hidden;
 	color:#BE1622;
 	margin-left: 0px;
-	font-family: 'Apple LiGothic','LiHei Pro','文泉驿微米黑','Droid Sans Fallback','微软正黑体', 'Lucida Sans',FreeSans,sans-serif,'细明体';
+	font-family: "Apple LiGothic", "LiHei Pro", "文泉驿微米黑", "Droid Sans Fallback", "微软正黑体", "Lucida Sans", FreeSans, sans-serif, "细明体";
 	font-size: 15px;
 }
 a{
@@ -75,8 +75,10 @@ a:hover{
 	clear: both;
     background-attachment: fixed;
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-size: 100% auto;
 	background-image: url(<?php echo base_url() ;?>image/container_bg.png);
+	background-color: #CEA967;
+	background-position: 11% 0%;
 	cursor:move;
 }
 #container p{
@@ -145,7 +147,8 @@ a:hover{
 	padding: 10px;
 	border-radius: 10px;
 	background-color: #F39200;
-    border: 3px solid #F39200;
+	border: 3px solid #F39200;
+	font-family: "Apple LiGothic", "LiHei Pro", "文泉驿微米黑", "Droid Sans Fallback", "微软正黑体", "Lucida Sans", FreeSans, sans-serif, "细明体";
 }
 #photo_link{
 	bottom: 10px;
@@ -190,7 +193,7 @@ a:hover{
 #innerbox{
 	margin-top: 20px;
 	margin-bottom: 10px;
-	position: relative;
+	position: absolute;
 	left: 50%;
 }
 #photo_line{
@@ -224,7 +227,7 @@ a:hover{
 }
 #timeselect{
 	width: 250px;
-	height: 580px;
+	height: 650px;
 	border:5px solid #BE1622;
 	border-top: 0px;
 	border-radius: 0px 10px 10px 10px;
@@ -236,6 +239,7 @@ a:hover{
 	box-shadow: 0px 5px 5px black;
 	-moz-box-shadow: 0px 5px 5px black;
 	-webkit-box-shadow: 0px 5px 5px black;
+	font-size: 12px;
 }
 #timeselect div{
 	width: 110px;
@@ -269,6 +273,62 @@ a:hover{
 #desc p img{
 	float: left;
 	margin: 10px;
+}
+#gplusone{
+	bottom: 10px;
+    position: absolute;
+}
+#arrow, #return{
+	background-color: #F39200;
+    border: 5px solid #F39200;
+	color: #BE1622;
+    font-family: Verdana,Geneva,sans-serif;
+	font-weight: bolder;
+	position: absolute;
+	z-index: 100;
+	box-shadow: 0px 5px 5px black;
+	-moz-box-shadow: 0px 5px 5px black;
+	-webkit-box-shadow: 0px 5px 5px black;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	vertical-align: middle;
+}
+#arrow{
+	border-radius: 50px 0 0 50px;
+	padding-bottom: 4px;
+    font-size: 80px;
+    height: 100px;
+    right: 0;
+    text-align: left;
+    top: 45%;
+    width: 100px;
+	padding-left: 10px;
+}
+#arrow:hover{
+	width: 150px;
+	background-color: #BE1622;
+	border-color: #BE1622;
+	color: #EFCD9C;
+}
+#return{
+	width: 50px;
+	height: 50px;
+    border-radius: 0px 25px 25px 0px;
+    font-size: 40px;
+	text-align: right;
+	left: 0px;
+	bottom: 30%;
+	padding-right: 5px;
+}
+#return:hover{
+	width: 80px;
+	background-color: #BE1622;
+	border-color: #BE1622;
+	color: #EFCD9C;
 }
 .day1{
 	float: left;
@@ -403,6 +463,7 @@ var day2 = new Array();
 var getInvolved_flag = 0;
 var bounceTo_flag = 0;
 var lang_flag = 0;
+var pan_ID = 0;
 
 $.getJSON(base_url+"api",
         function(returnData){
@@ -418,6 +479,15 @@ $.getJSON(base_url+"api",
 		
 function enableButton(){
 	$("#wrap2").css("display", "none");
+	$(window).keypress(function(event){
+		if(event.keyCode == 39 || event.keyCode == 32){
+			document.getElementById('canvas').scrollLeft += 50;
+		}else if(event.keyCode == 37){
+			document.getElementById('canvas').scrollLeft -= 50;
+		}else if(event.keyCode == 38 || event.keyCode == 40){
+			document.getElementById('canvas').scrollLeft = 0;
+		}
+	});
 }
 
 function addZero(i){
@@ -523,7 +593,7 @@ function arrangeEventTag(i, from, to, name, detail){
 	//var len = $(COSCUP_api).length;
 	
 	if(from > d.getTime()){
-		return;	
+		return false;	
 	}
 	//var localOffset = d.getTimezoneOffset() * 60;
 	var from_x = getXbyTimestamp(from)-10;
@@ -549,7 +619,7 @@ function openPhoto(id){
 	}
 	img.src = data[id].photo_url;
 	$("#innerbox").html('<img class="photoview" src="'+data[id].photo_url+'" />');
-	$("#innerbanner").html("<font id='innerbanner_left'>由"+data[id].author+"所拍摄</font><font id='innerbanner_right'><img src='"+img_url+"share.png' alt=''></img><a href='"+data[id].photo_link+"' target='_blank'>浏览这本相本</a></font>");
+	$("#innerbanner").html("<font id='innerbanner_left'>由 "+data[id].author+" 所拍摄</font><font id='innerbanner_right'><img src='"+img_url+"share.png' alt=''></img><a href='"+data[id].photo_link+"' target='_blank'>浏览这本相本</a></font>");
 	//$("g:plusone").attr("href", site_url+"view/"+data[id].photo_id);
 	gapi.plusone.render('gbutton',{"size": "standard", "count": "true", "href":  site_url+"view/"+data[id].photo_id});
 	$("#photo_link").attr("href", site_url+"view/"+data[id].photo_id);
@@ -875,6 +945,13 @@ function panToTime(timestamp){
 	document.getElementById('canvas').scrollLeft = getXbyTimestamp(timestamp);
 }
 
+function showLang(){
+	$("#language").text("简体中文");
+}
+
+function recoverLang(){
+	$("#language").text("语言");
+}
 
 function changeLang(){
 	if(bounceTo_flag == 1){
@@ -885,7 +962,7 @@ function changeLang(){
 	if(lang_flag == 0){
 		$("#language").css('border-radius', '10px 10px 0px 0px').css('border-color', '#BE1622').css('background-color', '#BE1622').css('color', '#EFCD96');
 		$("#langselect").empty();
-		$("#langselect").append("<div class='select_option'><a href='"+site_url+"lang/zh-tw'>正体中文</a></div>");
+		$("#langselect").append("<div class='select_option'><a href='"+site_url+"lang/zh-tw'>正體中文</a></div>");
 		$("#langselect").append("<div class='select_option'><a href='"+site_url+"lang/en'>English</a></div>");
 		$("#langselect").append("<div class='select_option' style='clear: both;text-align: center;width: 80px; margin-top: 20px' onclick='closeLang();'>取消</div>");
 		$("#langselect").css("top", $("#language").offset().top + $("#language").height()).css("left", $("#language").offset().left).css("display", "block");
@@ -938,7 +1015,7 @@ function selectLink(){
 
 function openAbout(){
 	$("#innerbox").empty();
-	$("#innerbanner").html("关于 COSCUP Cheese");
+	$("#innerbanner").html("<div id='innerbanner_left'>关于 COSCUP Cheese</div>");
 	//$("g:plusone").attr("href", site_url);
 	gapi.plusone.render('gbutton',{"size": "standard", "count": "true", "href":  site_url});
 	$("#photo_link").attr("href", site_url);
@@ -951,7 +1028,7 @@ function openAbout(){
 
 function openHelp(){
 	$("#innerbox").empty();
-	$("#innerbanner").html("帮助");
+	$("#innerbanner").html("<div id='innerbanner_left'>帮助</div>");
 	//$("g:plusone").attr("href", site_url);
 	gapi.plusone.render('gbutton',{"size": "standard", "count": "true", "href":  site_url});
 	$("#photo_link").attr("href", site_url);
@@ -961,6 +1038,23 @@ function openHelp(){
 	$("#wrap").css("display", "block");
 	$("#photobox").css("display", "block")
 }
+
+function panCanvas(){
+	pan_ID = setInterval("document.getElementById('canvas').scrollLeft += 50;", 100);
+}
+
+function backCanvas(){
+	pan_ID = setInterval("document.getElementById('canvas').scrollLeft -= 50;", 100);
+}
+
+function stopCanvas(){
+	clearInterval(pan_ID);
+}
+
+function returnCanvas(){
+	document.getElementById('canvas').scrollLeft = 0;
+}
+
 function assignPhoto(){
 <?php
 	if ($assignPhoto){
@@ -999,12 +1093,14 @@ function assignPhoto(){
 <div id="timeline"></div>
 <div id="footer"><font class="footer_text">快到我们的 <a href="http://coscup.org/2010" target="_blank">网站</a> / <a href="http://blog.coscup.org" target="_blank">博客</a> / <a href="http://www.youtube.com/user/coscup2011" target="_blank">YouTube 频道</a> / <a href="http://www.plurk.com/coscup" target="_blank">噗浪</a> / <a href="https://www.facebook.com/coscup">脸书</a> 逛逛吧！</font></div>
 </div>
-<div id="photobox"><div id="innerbanner"></div><div id="innerbox"></div><div id="desc"></div><div id="close" onclick="closePhoto()">X</div><div id="gplusone"><div id="gbutton"></div><a id="plurk" href=""><img style="position:relative; top: 5px" width="32" src="<?php echo base_url();?>image/plurk.png" /></a><div id="photo_link" onclick="selectLink();"><img src="<?php echo base_url();?>image/at.png" />分享芝士连结<input id="shareLink"  /></div></div></div>
+<div id="photobox"><div id="innerbanner"></div><div id="innerbox"></div><div id="desc"></div><div id="close" onclick="closePhoto()">X</div><div id="gplusone"><div id="gbutton"></div><a id="plurk" href=""><img style="position:relative; top: 5px" width="32" src="<?php echo base_url();?>image/plurk.png" /></a></div><div id="photo_link" onclick="selectLink();"><img src="<?php echo base_url();?>image/at.png" />分享芝士连结<input id="shareLink"  /></div></div>
 <div id="getInvolvedInfo"><p>融入芝士非常容易，只要 <a href="http://picasaweb.google.com" target="_blank" style="color:#FFF">上传你在 COSCUP 照的照片到 Picasa</a> 并且加上 #COSCUP2010 标签，然后这张照片就自然而然地与 COSCUP Cheese 混合了！</p><p>你也可以透过 Google +1 按钮为其他的芝士照片评分。</p><p>*请注意，由于我们对照片数量做了上限限制，您上传的照片有可能不会被显示出来。</p><div class='select_option' style='clear: both;text-align: center;width: 80px; margin-top: 20px' onclick='closeGetInvolved();'>关闭</div></div>
 <div id="timeselect"><div id="Day1" class="day1"></div><div id="Day2" class="day2"></div></div>
 <div id="langselect"></div>
 <div id="wrap2"></div>
-<div id="wrap"></div>
+<div id="wrap" onclick="closePhoto();"></div>
 <div id="text"></div>
+<div id="arrow" onmousedown="panCanvas();" onmouseup="stopCanvas();" ontouchstart="panCanvas();" ontouchend = "stopCanvas();">►</div>
+<div id="return" onclick="returnCanvas();">←</div>
 </body>
 </html>
