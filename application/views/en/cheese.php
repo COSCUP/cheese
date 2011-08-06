@@ -12,7 +12,7 @@ body{
 	overflow:hidden;
 	color:#BE1622;
 	margin-left: 0px;
-	font-family: 'Apple LiGothic','LiHei Pro','文泉驛微米黑','Droid Sans Fallback','微軟正黑體', 'Lucida Sans',FreeSans,sans-serif,'新細明體';
+	font-family: "Apple LiGothic", "LiHei Pro", "文泉驛微米黑", "Droid Sans Fallback", "微軟正黑體", "Lucida Sans", FreeSans, sans-serif, "新細明體";
 	font-size: 15px;
 }
 a{
@@ -75,8 +75,10 @@ a:hover{
 	clear: both;
     background-attachment: fixed;
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-size: 100% auto;
 	background-image: url(<?php echo base_url() ;?>image/container_bg.png);
+	background-color: #CEA967;
+	background-position: 11% 0%;	
 	cursor:move;
 }
 #container p{
@@ -190,7 +192,7 @@ a:hover{
 #innerbox{
 	margin-top: 20px;
 	margin-bottom: 10px;
-	position: relative;
+	position: absolute;
 	left: 50%;
 }
 #photo_line{
@@ -224,7 +226,7 @@ a:hover{
 }
 #timeselect{
 	width: 250px;
-	height: 560px;
+	height: 650px;
 	border:5px solid #BE1622;
 	border-top: 0px;
 	border-radius: 0px 10px 10px 10px;
@@ -236,6 +238,7 @@ a:hover{
 	box-shadow: 0px 5px 5px black;
 	-moz-box-shadow: 0px 5px 5px black;
 	-webkit-box-shadow: 0px 5px 5px black;
+	font-size: 10px;
 }
 #timeselect div{
 	width: 110px;
@@ -269,6 +272,62 @@ a:hover{
 #desc p img{
 	float: left;
 	margin: 10px;
+}
+#gplusone{
+	bottom: 10px;
+    position: absolute;
+}
+#arrow, #return{
+	background-color: #F39200;
+    border: 5px solid #F39200;
+	color: #BE1622;
+    font-family: Verdana,Geneva,sans-serif;
+	font-weight: bolder;
+	position: absolute;
+	z-index: 100;
+	box-shadow: 0px 5px 5px black;
+	-moz-box-shadow: 0px 5px 5px black;
+	-webkit-box-shadow: 0px 5px 5px black;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-o-user-select: none;
+	user-select: none;
+	vertical-align: middle;
+}
+#arrow{
+	border-radius: 50px 0 0 50px;
+	padding-bottom: 4px;
+    font-size: 80px;
+    height: 100px;
+    right: 0;
+    text-align: left;
+    top: 45%;
+    width: 100px;
+	padding-left: 10px;
+}
+#arrow:hover{
+	width: 150px;
+	background-color: #BE1622;
+	border-color: #BE1622;
+	color: #EFCD9C;
+}
+#return{
+	width: 50px;
+	height: 50px;
+    border-radius: 0px 25px 25px 0px;
+    font-size: 40px;
+	text-align: right;
+	left: 0px;
+	bottom: 30%;
+	padding-right: 5px;
+}
+#return:hover{
+	width: 80px;
+	background-color: #BE1622;
+	border-color: #BE1622;
+	color: #EFCD9C;
 }
 .day1{
 	float: left;
@@ -403,6 +462,7 @@ var day2 = new Array();
 var getInvolved_flag = 0;
 var bounceTo_flag = 0;
 var lang_flag = 0;
+var pan_ID = 0;
 
 $.getJSON(base_url+"api",
         function(returnData){
@@ -418,6 +478,15 @@ $.getJSON(base_url+"api",
 		
 function enableButton(){
 	$("#wrap2").css("display", "none");
+	$(window).keypress(function(event){
+		if(event.keyCode == 39 || event.keyCode == 32){
+			document.getElementById('canvas').scrollLeft += 50;
+		}else if(event.keyCode == 37){
+			document.getElementById('canvas').scrollLeft -= 50;
+		}else if(event.keyCode == 38 || event.keyCode == 40){
+			document.getElementById('canvas').scrollLeft = 0;
+		}
+	});
 }
 
 function addZero(i){
@@ -523,7 +592,7 @@ function arrangeEventTag(i, from, to, name, detail){
 	//var len = $(COSCUP_api).length;
 	
 	if(from > d.getTime()){
-		return;	
+		return false;	
 	}
 	//var localOffset = d.getTimezoneOffset() * 60;
 	var from_x = getXbyTimestamp(from)-10;
@@ -945,7 +1014,7 @@ function selectLink(){
 
 function openAbout(){
 	$("#innerbox").empty();
-	$("#innerbanner").html("About COSCUP Cheese");
+	$("#innerbanner").html("<div id='innerbanner_left'>About COSCUP Cheese</div>");
 	//$("g:plusone").attr("href", site_url);
 	gapi.plusone.render('gbutton',{"size": "standard", "count": "true", "href":  site_url});
 	$("#photo_link").attr("href", site_url);
@@ -958,7 +1027,7 @@ function openAbout(){
 
 function openHelp(){
 	$("#innerbox").empty();
-	$("#innerbanner").html("Help");
+	$("#innerbanner").html("<div id='innerbanner_left'>Help</div>");
 	//$("g:plusone").attr("href", site_url);
 	gapi.plusone.render('gbutton',{"size": "standard", "count": "true", "href":  site_url});
 	$("#photo_link").attr("href", site_url);
@@ -968,6 +1037,22 @@ function openHelp(){
 	$("#wrap").css("display", "block");
 	$("#photobox").css("display", "block")
 }
+function panCanvas(){
+	pan_ID = setInterval("document.getElementById('canvas').scrollLeft += 50;", 100);
+}
+
+function backCanvas(){
+	pan_ID = setInterval("document.getElementById('canvas').scrollLeft -= 50;", 100);
+}
+
+function stopCanvas(){
+	clearInterval(pan_ID);
+}
+
+function returnCanvas(){
+	document.getElementById('canvas').scrollLeft = 0;
+}
+
 function assignPhoto(){
 <?php
 	if ($assignPhoto){
@@ -1011,7 +1096,9 @@ function assignPhoto(){
 <div id="timeselect"><div id="Day1" class="day1"></div><div id="Day2" class="day2"></div></div>
 <div id="langselect"></div>
 <div id="wrap2"></div>
-<div id="wrap"></div>
+<div id="wrap" onclick="closePhoto();"></div>
 <div id="text"></div>
+<div id="arrow" onmousedown="panCanvas();" onmouseup="stopCanvas();" ontouchstart="panCanvas();" ontouchend = "stopCanvas();">►</div>
+<div id="return" onclick="returnCanvas();">←</div>
 </body>
 </html>
