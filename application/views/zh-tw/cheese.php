@@ -5,6 +5,7 @@
 <meta name="keywords" content="COSCUP, COSCUP2010, COSCUP Cheese, 開源人年會, 开源人年会" />
 <meta name="description" content="A platfrom that makes sharing photo in COSCUP easy." />
 <meta name="robots" content="index, allow" />
+<meta name="google-site-verification" content="dQCRnqBuMTfC4th8pDO8P-uq_B94p-fpieGQ9kuImrQ" />
 <link type="image/x-icon" href="<?php echo base_url();?>image/cheese.ico" rel="shortcut icon" />
 <title>COSCUP Cheese 2010</title>
 <style>
