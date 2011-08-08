@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="keywords" content="COSCUP, COSCUP2010, COSCUP Cheese, 開源人年會, 开源人年会" />
-<meta name="description" content="A platfrom that makes sharing photo in COSCUP easy." />
+<meta name="keywords" content="COSCUP, COSCUP2010, COSCUP Cheese, TOGETHER say Cheese, coscup2u, 開源人年會, 开源人年会" />
+<meta name="description" content='TOGETHER say Cheese!-- Upload your most fabulous and awesome community or COSCUP photo, and tag them with "#coscup2u". Vote by Google +1 button, and the champion will receive a super surpurise!'/>
 <meta name="robots" content="index, allow" />
 <meta name="google-site-verification" content="dQCRnqBuMTfC4th8pDO8P-uq_B94p-fpieGQ9kuImrQ" />
 <link type="image/x-icon" href="<?php echo base_url();?>image/cheese.ico" rel="shortcut icon" />
-<title>COSCUP Cheese 2010</title>
+<meta name="google-site-verification" content="dQCRnqBuMTfC4th8pDO8P-uq_B94p-fpieGQ9kuImrQ" />
 <style>
 body{
 	overflow:hidden;
@@ -37,13 +37,13 @@ a:hover{
 	top: -20px;
 }
 #banner_cheese{
-	background-image: url(<?php echo base_url() ;?>image/banner_cheese.png);
-	width: 232px;
-	height: 69px;
+	background-image: url(<?php echo base_url() ;?>image/TSC_banner.png);
+	width: 389px;
+	height: 88px;
 	z-index: 2;
 	position:absolute;
-	left: 185px;
-	top: 10px;
+	left: 183px;
+	top: -11px;
 }
 #banner_menu{
 	background-color:	#F39200;
@@ -226,8 +226,7 @@ a:hover{
 	-webkit-box-shadow: 0px 5px 5px black;
 }
 #timeselect{
-	width: 250px;
-	height: 650px;
+	width: 150px;
 	border:5px solid #BE1622;
 	border-top: 0px;
 	border-radius: 0px 10px 10px 10px;
@@ -239,10 +238,13 @@ a:hover{
 	box-shadow: 0px 5px 5px black;
 	-moz-box-shadow: 0px 5px 5px black;
 	-webkit-box-shadow: 0px 5px 5px black;
-	font-size: 10px;
+	font-size: 18px;
 }
 #timeselect div{
-	width: 110px;
+	width: 30px;
+	float: left;
+	padding-left: 10px;
+	clear: none;
 }
 #langselect{
 	height: 100px;
@@ -329,12 +331,6 @@ a:hover{
 	background-color: #BE1622;
 	border-color: #BE1622;
 	color: #EFCD9C;
-}
-.day1{
-	float: left;
-}
-.day2{
-	float: right;
 }
 .banner_menu_option{
 	background-color:#EFCD9C;
@@ -433,6 +429,7 @@ a:hover{
 	border-radius: 10px;
 	border-bottom: 2px dotted #F39200;
 	cursor: pointer;
+	clear:both;
 }
 </style>
 <script type="text/javascript" src="<?php echo base_url()?>js/jquery.min.js" ></script>
@@ -450,7 +447,7 @@ var size_y;
 
 var draging = false;
 
-var footer_flag = 0;
+var footer_flag = 1;
 
 var COSCUP_api;
 var site_url = "<?php echo site_url();?>cheese/";
@@ -467,9 +464,15 @@ var pan_ID = 0;
 
 $.getJSON(base_url+"api",
         function(returnData){
+			enableButton();
+			if(returnData[0] == null){
+				$("#bounceTo, #about, #help").attr("onclick", "");
+				getInvolved();
+				$("#container").empty().append("<p>We have no Cheese photo now. Take a look at \"Get Involved\", and check out how to be a part of COSCUP Cheese!</p>");
+				return;
+			}
 		  	data = returnData;
 			$("#container").empty();
-			enableButton();
 		  	arrangePhoto();
 			assignPhoto();
 			pushEventTag();
@@ -517,7 +520,9 @@ function arrangePhoto(){
 	arrX[0] = 0;
 	arrY[0] = Math.floor(Math.random()*(max_y+1-size_y));
 	tmp = new Date(parseInt(data[0].timestamp)*1000 + tmp.getTimezoneOffset() * 60000); //second -> millisecond
-	
+	if(data[0].time_flag){
+		tmp = new Date(parseInt(data[0].timestamp)*1000);
+	}
 	$("#container").append('<div class="photo_grid" style="width: '+size_x+'px ; height: '+size_y+'px ; left: '+arrX[0]+'px ; top: '+arrY[0]+'px; "><div class="author">'+data[0].author+'</div><a onclick="openPhoto('+0+');" href="#"><img class="thumbnail" onmouseover="inPhotobox(0);" onmouseout="outPhotobox(0);" src="'+data[0].thumbnail+'" /></a></div>');
 	$("#timeline").append('<div class="timetag" style="left: '+arrX[0]+'px;">'+addZero(tmp.getHours())+':'+addZero(tmp.getMinutes())+'</div>');
 	
@@ -535,12 +540,17 @@ function arrangePhoto(){
 		}while(checkpt(arrX[i], arrY[i], i))
 		//document.write(arrX[i]+' '+arrY[i]+'\n');
 		tmp = new Date(parseInt(data[i].timestamp)*1000 + tmp.getTimezoneOffset() * 60000);
+		if(data[0].time_flag){
+			tmp = new Date(parseInt(data[0].timestamp)*1000);
+		}
 		$("#container").append('<div class="photo_grid" style="width: '+size_x+'px ; height: '+size_y+'px ; left: '+arrX[i]+'px ; top: '+arrY[i]+'px; "><div class="author">'+data[i].author+'</div><a onclick="openPhoto('+i+');" href="#"><img class="thumbnail" onmouseover="inPhotobox('+i+');" onmouseout="outPhotobox('+i+');" src="'+data[i].thumbnail+'" /></a></div>');
 		$("#timeline").append('<div class="timetag" style="left: '+arrX[i]+'px;">'+addZero(tmp.getHours())+':'+addZero(tmp.getMinutes())+'</div>');
 		
 	}
-	$("#container").css('width', arrX[i-1]+size_x);
-	$(".seperator").css('width', arrX[i-1]+size_x);
+	if(arrX[i-1]+size_x > $("#canvas").width()){
+		$("#container").css('width', arrX[i-1]+size_x);
+		$(".seperator").css('width', arrX[i-1]+size_x);
+	}
         $("#canvas").mousedown(function(event){  
 			/*if (document.documentElement && document.documentElement.scrollTop) {
 				startLeft = document.documentElement.scrollLeft;
@@ -592,7 +602,7 @@ function arrangeEventTag(i, from, to, name, detail){
 	var d = new Date();
 	//var len = $(COSCUP_api).length;
 	
-	if(from > d.getTime()){
+	if(from*1000 > d.getTime()){
 		return false;	
 	}
 	//var localOffset = d.getTimezoneOffset() * 60;
@@ -697,167 +707,45 @@ function closePhoto(){
 }
 
 function pushEventTag(){
-	for(var i=0; i<=17; i++){
+	for(var i=0; i<=6; i++){
 		day1[i] = new Object();
 	}
 	
-	day1[0].name = "Opening";
-	day1[0].from =	1281777300;
-	day1[0].to = 		1281778200;
-	day1[0].detail = "Opening";
+	day1[0].name = "8/08";
+	day1[0].from =	1312761600;
+	day1[0].to = 		1312848000;
+	day1[0].detail = "2011/8/08";
 	
-	day1[1].name = "Keynote#1";
-	day1[1].to =		1281781800;
-	day1[1].detail = "HTML5 — More Web for More People";
+	day1[1].name = "8/09";
+	day1[1].to =		1312934400;
+	day1[1].detail = "2011/8/09";
 	
-	day1[2].name ="TeaBreak#1";
-	day1[2].to =		1281783600;
-	day1[2].detail =	"Take a Break!";
+	day1[2].name = "8/10";
+	day1[2].to =		1313020800;
+	day1[2].detail =	"2011/8/10";
 	
-	day1[3].name =	"Section#1";
-	day1[3].to =		1281785400;
-	day1[3].detail =	"HTML5 for Programmers | GNOME Foundation | Sahana Taiwan Development | OpenOffice.org 的 UNO 魔術 — 那些 MS Office 做不到的事";
+	day1[3].name =	 "8/11";
+	day1[3].to =		1313107200;
+	day1[3].detail =	"2011/8/11";
 	
-	day1[4].name =	"Section#2";
-	day1[4].to =		1281787200;
-	day1[4].detail =	"HTML5: Building the Next Generation Web Application | GNOME in Education: a practical case study | 網頁設計師必備: CSS3 新功能大補帖 | 打雜的事情交給 Ant 吧";
+	day1[4].name =	"8/12";
+	day1[4].to =		1313193600;
+	day1[4].detail =	"2011/8/12";
 	
-	day1[5].name =	"Lunch";
-	day1[5].to =		1281790800;
-	day1[5].detail =	"It's Lunch time!";
+	day1[5].name =	"8/13";
+	day1[5].to =		1313280000;
+	day1[5].detail =	"2011/8/14";
 	
-	day1[6].name = "Keynote#2";
-	day1[6].to =		1281793500;
-	day1[6].detail ="Qt 應用於 Meego 開源生態系統";
-	
-	day1[7].name =	"TeaBreak";
-	day1[7].to =		1281794400;
-	day1[7].detail =	"Take a Break!";
-	
-	day1[8].name =	"Section#3";
-	day1[8].to =		1281796200;
-	day1[8].detail =	"社文字D:轟趴開交物語 | Linpus Lite MeeGo Edition: Enabling MeeGo for Production | 簡介 GNOME 輔助科技與建議改進事項 | Doxygen – 文件、程式一家親";
-	
-	day1[9].name =	"Section#4";
-	day1[9].to =		1281798000;
-	day1[9].detail =	"nodejs 於互動式網站之應用 | Nokia Symbian 新一代作業系統演進：從S60 5.0、Symbian^3 到 Symbian^4 | 不用 Framwork，一天完成網站的多國語系製作";
-	
-	day1[10].name =	"TeaBreak";
-	day1[10].to =	1281799800;
-	day1[10].detail =	"Take a Break.";
-	
-	day1[11].name =	"Section#5";
-	day1[11].to =	1281801600;
-	day1[11].detail =	"Writing Web Applications in C++ | 自由軟體授權運用的重要概念、類型說明，以及常見爭議 | GNOME Accessibility Development and Testing | Processing — 專為設計師、建築師、藝術家設計的簡易又強大的數位藝術工具！";
-	
-	day1[12].name =	"Section#6";
-	day1[12].to =	1281803400;
-	day1[12].detail =	"Frontend Development Enviornment | Ensuring Freedom of Action in Free Software Through Collaboration & Partnership | 自由軟體於互動技術";
-	
-	day1[13].name =	"Section#7";
-	day1[13].to =	1281805200;
-	day1[13].detail =	"HTML5 電子書閱讀器 | GNU GPL Compliance in Embedded Devices | 以中文的名义，融入开源世界 | 我是 Programmer　我也想當 Musician";
-	
-	day1[14].name =	"Section#8";
-	day1[14].to =	1281807000;
-	day1[14].detail =	"Jetpack SDK: 瀏覽器擴充套件的新可能性 | Implementation of a FOSS License Compliance Program | 由馬鈴薯小子看軟體在地化 | Elements of Typographics Freedom";
-	
-	day1[15].name =	"Lightning";
-	day1[15].to =	1281811500;
-	day1[15].detail =	"Lightning Talks by COSCUP / GNOME.Asia All Star";
-	
-	day1[16].name =	"TeaBreak";
-	day1[16].to =	1281812400;
-	day1[16].detail =	"Take a Break";
-	
-	day1[17].name =	"BoF";
-	day1[17].to =	1281819600;
-	day1[17].detail =	"Birds Of a Feather";
-
-	
-	
-	for(var i=0; i<=15; i++){
-		day2[i] = new Object();
-	}
-	
-	day2[0].name = "Announce";
-	day2[0].from = 	1281863700;
-	day2[0].to = 		1281864600;
-	day2[0].detail =	"Announcement";
-	
-	day2[1].name = "Keynote#1";
-	day2[1].to = 		1281868200;
-	day2[1].detail = "Road to Gnome3";
-	
-	day2[2].name = "TeaBreak#1";
-	day2[2].to = 		1281870000;
-	day2[2].detail = "Tea Break";
-	
-	day2[3].name =	"Section#1";
-	day2[3].to =		1281871800;
-	day2[3].detail =	"Debugging: Linux Kernel by Ftrace | Introducing GStreamer, the Media Framework on GNU/Linux | Building and Using a Memory Profiler | How to Become a Debian Developer";
-	
-	day2[4].name =	"Section#2";
-	day2[4].to =		1281873600;
-	day2[4].detail = "ScalaTest－連貓都會的單元測試與 BDD | GNOME Build Environment on Solaris | xPad — Building Simple Tablet OS with Gtk/WebKit | Ubuntu Kernel Factory";
-	
-	day2[5].name =	"Lunch";
-	day2[5].to = 		1281877200;
-	day2[5].detail =	"It's Lunch Time!";
-	
-	day2[6].name =	"Section#3";
-	day2[6].to =		1281879000;
-	day2[6].detail =	"Exploring New Paradigms of Computing for GNOME | Bugzilla, Bug squad and GNOME 3 | The Culture of Sharing | Android Game Engine 比較";
-	
-	day2[7].name =	"Section#4";
-	day2[7].to =		1281880800;
-	day2[7].detail =	"Adapting UCD for Open Source Software Development | App Engine 大爆料 | 經驗分享：Porting a New Architecture to OpenWrt Project";
-	
-	day2[8].name = "Section#5";
-	day2[8].to =		1281882600;
-	day2[8].detail =	'Android UI Design Pattern | The NoSQL Movement: CouchDB as an example | Understanding Internals of WebKit/GTK+ | Be “Android”';
-	
-	day2[9].name =	"Section#6";
-	day2[9].to =		1281884400;
-	day2[9].detail ="Cloud Experience — from Google to Delta | Implementation of websocket server program | Have Fun on Andes Platform — Game Emulator an overview";
-	
-	day2[10].name = 	"TeaBreak#2";
-	day2[10].to =	1281886200;
-	day2[10].detail=	"Tea Break";
-	
-	day2[11].name = 	"Section#7";
-	day2[11].to =	1281888000;
-	day2[11].detail = 	"Building a Cloud Computing Platform by Using Open Source Software | Hybrid Desktop/Web applications with WebKitGTK+ | SFD 2010: Why and Where? | A Safe and Stateless Platform — Introduction to Google Chrome OS Security Model";
-	
-	day2[12].name =	"Section#8";
-	day2[12].to =	1281889800;
-	day2[12].detail =	"快速佈署叢集式的搜尋引擎 CrawlZilla | Javascript in Linux Desktop | 打造特製的 Android Toolchain";
-	
-	day2[13].name =	"Section#9";
-	day2[13].to =	1281891600;
-	day2[13].detail = "Yahoo Traffic Server, a Powerful Cloud Gatekeeper | eekboard | GNOME in Asia | OsmocomBB: An Open Source GSM Baseband Firmware";
-	
-	day2[14].name = "Section#10";
-	day2[14].to =	1281893400;
-	day2[14].detail = 	"Solr on Cassandra | Debian Policy — 5.6.12 Version | Hosting GNOME.Asia is Fun! | Android-x86 Open Source Project";
-	
-	day2[15].name = "Closing";
-	day2[15].to = 	1281895200;
-	day2[15].detail =	"Team COSCUP / Gnome.Asia";
+	day1[6].name = "8/14";
+	day1[6].to =		1313366400;
+	day1[6].detail ="2011/8/14";
 	
 	arrangeEventTag(100, day1[0].from, day1[0].to, day1[0].name, day1[0].detail);
 	for(var i=1; i<day1.length; i++){
 		arrangeEventTag(100+i, day1[i-1].to, day1[i].to, day1[i].name, day1[i].detail);
 	}
 	
-	arrangeEventTag(200, day2[0].from, day2[0].to, day2[0].name, day2[0].detail);
-	for(var i=1; i<day2.length; i++){
-		arrangeEventTag(200+i, day2[i-1].to, day2[i].to, day2[i].name, day2[i].detail);
-	}
 	
-	/*Date Tag*/
-	arrangeEventTag(10, 1281744000, day1[0].from, "8/14", "Day 1");
-	arrangeEventTag(20, 1281830400, day2[0].from, "8/15", "Day 2");
 	
 	
 	/*
@@ -868,14 +756,16 @@ function pushEventTag(){
 }
 
 function footerSwitcher(){
-	if(footer_flag){
+	if(footer_flag == 0){
 		$("#footer > font").fadeOut(1000, 'linear', function(){
 		$("#footer").html('<font class="footer_text">Check out our <a href="http://coscup.org/" target="_blank">Website</a> / <a href="http://blog.coscup.org" target="_blank">Blog</a> / <a href="http://www.youtube.com/user/coscup2011" target="_blank">YouTube Channel</a> / <a href="http://www.plurk.com/coscup" target="_blank">Plurk</a> / <a href="https://www.facebook.com/coscup">Facebook</a> .</font>');
 		});
-		footer_flag = 0;
-	}else{
+		footer_flag = 1;
+	}else if(footer_flag == 1){
 		$("#footer > font").fadeOut(1000, 'linear', function(){$("#footer").html('<font class="footer_text">We <font style="color: #FFCCFF;">(heart)</font> Open.</font>');});
 		footer_flag = 1;
+	}else if(footer_flag == 2){
+		$("#footer > font").fadeOut(1000, 'linear', function(){$("#footer").html('<font class="footer_text">COSCUP Cheese 2010, 2011 is coming up!</font>');});
 	}
 }
 
@@ -902,24 +792,17 @@ function selectTime(){
 		$("#bounceTo").css('border-radius', '10px 10px 0px 0px').css('border-color', '#BE1622').css('background-color', '#BE1622').css('color', '#EFCD96');
 		//$("#timeselect").empty();
 		
-		$("#Day1").append("<div style='cursor: default; float: left; color: #FFF'>Day 1</div>");
-		$("#Day2").append("<div style='cursor: default; float: right; color: #FFF'>Day 2</div>");
 		
 		var tmp = new Date();
 		var starttime = new Date(day1[0].from*1000 + tmp.getTimezoneOffset() * 60000);
-		$("#Day1").append("<div class='day1 select_option' onclick='panToTime("+day1[0].to+");'>"+addZero(starttime.getHours())+":"+addZero(starttime.getMinutes())+" - "+day1[0].name+"</div>");
+		$("#timeselect").append("<div class='select_option' onclick='panToTime("+day1[0].to+");'>"+day1[0].name.replace('/', '<br />')+"</div>");
 		for(var i=1; i<day1.length; i++){
 			var starttime = new Date(day1[i-1].to*1000 + tmp.getTimezoneOffset() * 60000);
-			$("#Day1").append("<div class='day1 select_option' onclick='panToTime("+day1[i].to+");'>"+addZero(starttime.getHours())+":"+addZero(starttime.getMinutes())+" - "+day1[i].name+"</div>");
+			$("#timeselect").append("<div class='select_option' onclick='panToTime("+day1[i].to+");'>"+day1[i].name.replace('/', '<br />')+"</div>");
 		}
 		
-		var starttime = new Date(day2[0].from*1000 + tmp.getTimezoneOffset() * 60000);
-		$("#Day2").append("<div class='day2 select_option' onclick='panToTime("+day2[0].to+");'>"+addZero(starttime.getHours())+":"+addZero(starttime.getMinutes())+" - "+day2[0].name+"</div>");
-		for(var i=1; i<day2.length; i++){
-			var starttime = new Date(day2[i-1].to*1000 + tmp.getTimezoneOffset() * 60000);
-			$("#Day2").append("<div class='day2 select_option' onclick='panToTime("+day2[i].to+");'>"+addZero(starttime.getHours())+":"+addZero(starttime.getMinutes())+" - "+day2[i].name+"</div>");
-		}
-		$("#Day2").append("<div class='day2 select_option' style='text-align: center;width: 80px; margin-top: 20px' onclick='closeTimeselect();'>Close</div>");
+		
+		$("#timeselect").append("<div class='select_option' style='text-align: center;width: 80px; margin-top: 20px; padding-left: 0px !important; clear: both;' onclick='closeTimeselect();'>Close</div>");
 		$("#timeselect").css("top", $("#bounceTo").offset().top + $("#bounceTo").height()).css("left", $("#bounceTo").offset().left).css("display", "block");
 		bounceTo_flag = 1;
 	}else if(bounceTo_flag == 1){
@@ -1093,8 +976,8 @@ function assignPhoto(){
 <div id="footer"><font class="footer_text">Check out our <a href="http://coscup.org/2010" target="_blank">Website</a> / <a href="http://blog.coscup.org" target="_blank">Blog</a> / <a href="http://www.youtube.com/user/coscup2011" target="_blank">YouTube Channel</a> / <a href="http://www.plurk.com/coscup" target="_blank">Plurk</a> / <a href="https://www.facebook.com/coscup">Facebook</a> .</font></div>
 </div>
 <div id="photobox"><div id="innerbanner"></div><div id="innerbox"></div><div id="desc"></div><div id="close" onclick="closePhoto()">X</div><div id="gplusone"><div id="gbutton"></div><a id="plurk" href=""><img style="position:relative; top: 5px" width="32" src="<?php echo base_url();?>image/plurk.png" /></a></div><div id="photo_link" onclick="selectLink();"><img src="<?php echo base_url();?>image/at.png" />Share the Cheese Link<input id="shareLink"  /></div></div>
-<div id="getInvolvedInfo"><p>It's easy to get involved! Just <a href="http://picasaweb.google.com" target="_blank" style="color:#FFF">upload your COSCUP Cheese photo to Picasa</a> and tag it with #COSCUP2010, then it will be automatically added to COSCUP Cheese.</p><p>In addition, you can rate others' Cheese photos using Google's +1 button.</p><p>*Notice that the photo you uploaded may not appear due to the limited amount of display space.</p><div class='select_option' style='clear: both;text-align: center;width: 80px; margin-top: 20px' onclick='closeGetInvolved();'>Close</div></div>
-<div id="timeselect"><div id="Day1" class="day1"></div><div id="Day2" class="day2"></div></div>
+<div id="getInvolvedInfo"><p>It's easy to get involved in TOGETHER say Cheese! Just <a href="http://picasaweb.google.com" target="_blank" style="color:#FFF">Upload your most fabulous and awesome community or COSCUP photo, and set it public to the web,</a> then it will be automatically added to COSCUP Cheese.</p><p>In addition, you can rate others' Cheese photos using Google's +1 button during 8/8 - 8/14. The first attendanee will receive a super surprise!.</p><p>*Notice that the photo you uploaded may not appear due to the limited amount of display space.</p><div class='select_option' style='clear: both;text-align: center;width: 80px; margin-top: 20px' onclick='closeGetInvolved();'>Close</div></div>
+<div id="timeselect"></div></div>
 <div id="langselect"></div>
 <div id="wrap2"></div>
 <div id="wrap" onclick="closePhoto();"></div>
