@@ -4,7 +4,7 @@ class Api extends CI_Controller {
 	
 	
 	function index(){
-		$tag = "coscup2010";
+		$tag = "coscup2u";
 		$MaxPhoto = 300;
 		$ban[0] = '';
 		
@@ -65,10 +65,11 @@ class Api extends CI_Controller {
 			$query->setMaxResults($MaxPhoto/2);
 			$userFeed = $gp->getUserFeed(null, $query);*/
 			
-			
+			$flag_exist = 0;
 			foreach ($userFeed as $photoEntry) {
 				
 				if ($photoEntry->getMediaGroup()->getContent() != null){
+					$flag_exist = 1;
 					$mediaContentArray = $photoEntry->getMediaGroup()->getContent();
 					
 					$photo_id = $photoEntry->getGphotoId()->getText();
@@ -85,6 +86,13 @@ class Api extends CI_Controller {
 					$likes = 0;
 					if ($photoEntry->getExifTags() != null && $photoEntry->getExifTags()->getMake() != null && $photoEntry->getExifTags()->getModel() != null) {
 						$timestamp = $photoEntry->getExifTags()->getTime()->getText();
+						$time_flag = 0;
+					}else{
+						$timestamp = $photoEntry->getGphotoTimestamp()->getText();
+						$time_flag = 1;
+						if(!isset($timestamp)){
+							continue;
+						}
 					}
 					if ($photoEntry->getMediaGroup()->getThumbnail() != null) {
 						$mediaThumbnailArray = $photoEntry->getMediaGroup()->getThumbnail();
@@ -103,14 +111,17 @@ class Api extends CI_Controller {
 					$ImgList[$i]->photo_url = $photo_url."?imgmax=640";
 					$ImgList[$i]->photo_link = $photo_link;
 					$ImgList[$i]->author = $author;
+					$ImgList[$i]->time_flag = $time_flag;
 					
 					$i = $i + 1;
 					
 				}
 				
 			}
-			$this->load->helper("quicksort");
-			$ImgList = quicksort($ImgList);
+			if($flag_exist){
+				$this->load->helper("quicksort");
+				$ImgList = quicksort($ImgList);
+			}
 			$ImgList = json_encode($ImgList);
 			$this->cache->save('ImgList', $ImgList, $cache_time);
 		}
