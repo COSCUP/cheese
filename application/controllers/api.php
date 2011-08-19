@@ -4,8 +4,8 @@ class Api extends CI_Controller {
 	
 	
 	function index(){
-		$tag = "coscup2010";
-		$MaxPhoto = 300;
+		$tag = "coscup2011";
+		$MaxPhoto = 400;
 		$ban[0] = '';
 		
 		//$this->load->library('yql_lib');
