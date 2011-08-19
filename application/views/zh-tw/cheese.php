@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta name="keywords" content="COSCUP, COSCUP2010, COSCUP Cheese, 開源人年會, 开源人年会" />
+<meta name="keywords" content="COSCUP, COSCUP2011, COSCUP Cheese, 開源人年會, 开源人年会" />
 <meta name="description" content="A platfrom that makes sharing photo in COSCUP easy." />
 <meta name="robots" content="index, allow" />
 <meta name="google-site-verification" content="dQCRnqBuMTfC4th8pDO8P-uq_B94p-fpieGQ9kuImrQ" />
 <link type="image/x-icon" href="<?php echo base_url();?>image/cheese.ico" rel="shortcut icon" />
-<title>COSCUP Cheese 2010</title>
+<title>COSCUP Cheese 2011</title>
 <style>
 body{
 	overflow:hidden;
@@ -227,7 +227,6 @@ a:hover{
 }
 #timeselect{
 	width: 250px;
-	height: 650px;
 	border:5px solid #BE1622;
 	border-top: 0px;
 	border-radius: 0px 10px 10px 10px;
@@ -437,6 +436,19 @@ a:hover{
 </style>
 <script type="text/javascript" src="<?php echo base_url()?>js/jquery.min.js" ></script>
 <script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-25227452-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
 <script>
 
 var arrX = new Array();
@@ -450,7 +462,7 @@ var size_y;
 
 var draging = false;
 
-var footer_flag = 0;
+var footer_flag = 2;
 
 var COSCUP_api;
 var site_url = "<?php echo site_url();?>cheese/";
@@ -596,7 +608,7 @@ function arrangeEventTag(i, from, to, name, detail){
 	var d = new Date();
 	//var len = $(COSCUP_api).length;
 	
-	if(from > d.getTime()){
+	if(from*1000 > d.getTime()){
 		return false;	
 	}
 	//var localOffset = d.getTimezoneOffset() * 60;
@@ -700,153 +712,149 @@ function closePhoto(){
 }
 
 function pushEventTag(){
-	for(var i=0; i<=17; i++){
+	for(var i=0; i<=16; i++){
 		day1[i] = new Object();
 	}
 	
-	day1[0].name = "開幕";
-	day1[0].from =	1281777300;
-	day1[0].to = 		1281778200;
-	day1[0].detail = "Opening";
+	day1[0].name = "報到";
+	day1[0].from =	1313828100;
+	day1[0].to = 		1313831400;
+	day1[0].detail = "會眾報到";
 	
-	day1[1].name = "全場大演講#1";
-	day1[1].to =		1281781800;
-	day1[1].detail = "HTML5 — More Web for More People";
+	day1[1].name = "開幕式";
+	day1[1].to =		1313832600;
+	day1[1].detail = "COSCUP Organizer";
 	
-	day1[2].name ="休息#1";
-	day1[2].to =		1281783600;
-	day1[2].detail =	"休息一下吧！";
+	day1[2].name ="全場大演講#1";
+	day1[2].to =		1313836200;
+	day1[2].detail =	"Keynote: Arduino in the DIY Classroom";
 	
-	day1[3].name =	"議程#1";
-	day1[3].to =		1281785400;
-	day1[3].detail =	"HTML5 for Programmers | GNOME Foundation | Sahana Taiwan Development | OpenOffice.org 的 UNO 魔術 — 那些 MS Office 做不到的事";
+	day1[3].name =	"休息";
+	day1[3].to =		1313838000;
+	day1[3].detail =	"休息一下吧！";
 	
-	day1[4].name =	"議程#2";
-	day1[4].to =		1281787200;
-	day1[4].detail =	"HTML5: Building the Next Generation Web Application | GNOME in Education: a practical case study | 網頁設計師必備: CSS3 新功能大補帖 | 打雜的事情交給 Ant 吧";
+	day1[4].name =	"議程#1";
+	day1[4].to =		1313839800;
+	day1[4].detail =	"使用 Arduino 開放平台建置智慧型插座 | ARM x Cloud = Next Generation Server | Using the Web in the GNOME Platform | 跨平台行動應用程式使用者介面開發—以 Titanium Mobile 為例";
 	
-	day1[5].name =	"午餐";
-	day1[5].to =		1281790800;
-	day1[5].detail =	"吃午餐囉！";
+	day1[5].name =	"議程#2";
+	day1[5].to =		1313841600;
+	day1[5].detail =	"羊逃成熟時-以Arduino開發的互動設計商品 | A virtual storage appliance based on GlusterFS and OpenStack | My sofa wants a new form factor (GNOME for tablets) | Openframeworks x Smartphone!!!";
 	
-	day1[6].name = "全場大演講#2";
-	day1[6].to =		1281793500;
-	day1[6].detail ="Qt 應用於 Meego 開源生態系統";
+	day1[6].name = "議程#3";
+	day1[6].to =		1313843400;
+	day1[6].detail ="RepRap 3D Printer | 運用企鵝龍打造多人 Hadoop 叢集 -- hadoop.nchc.org.tw 營運經驗分享 | Plasma Active: A Truly Open and Innovative Solution for Consumer Devices | Open Source, Mobile, Cloud, and Medical Images";
 	
-	day1[7].name =	"休息";
-	day1[7].to =		1281794400;
-	day1[7].detail =	"Take a Break!";
+	day1[7].name =	"午餐";
+	day1[7].to =		1313848800;
+	day1[7].detail =	"休息一下，吃個午餐吧！";
 	
-	day1[8].name =	"議程#3";
-	day1[8].to =		1281796200;
-	day1[8].detail =	"社文字D:轟趴開交物語 | Linpus Lite MeeGo Edition: Enabling MeeGo for Production | 簡介 GNOME 輔助科技與建議改進事項 | Doxygen – 文件、程式一家親";
+	day1[8].name =	"全場大演講#2";
+	day1[8].to =		1313852400;
+	day1[8].detail =	"Keynote: Intel - Multiplying Opportunities for your Apps";
 	
-	day1[9].name =	"議程#4";
-	day1[9].to =		1281798000;
-	day1[9].detail =	"nodejs 於互動式網站之應用 | Nokia Symbian 新一代作業系統演進：從S60 5.0、Symbian^3 到 Symbian^4 | 不用 Framwork，一天完成網站的多國語系製作";
+	day1[9].name =	"休息";
+	day1[9].to =		1313854200;
+	day1[9].detail =	"休息一下吧！";
 	
-	day1[10].name =	"休息";
-	day1[10].to =	1281799800;
-	day1[10].detail =	"休息一下吧！";
+	day1[10].name =	"議程#4";
+	day1[10].to =	1313856000;
+	day1[10].detail =	"MeeTo: Android meets MeeGo ( on NOOK Color ) | The Kernel Report, 20th Anniversary Edition | Shuttle: How we build up MaDaCo community, the new era of gadgets | ezScrum 團隊 - 每旋轉一圈我們就更向前一步";
 	
 	day1[11].name =	"議程#5";
-	day1[11].to =	1281801600;
-	day1[11].detail =	"Writing Web Applications in C++ | 自由軟體授權運用的重要概念、類型說明，以及常見爭議 | GNOME Accessibility Development and Testing | Processing — 專為設計師、建築師、藝術家設計的簡易又強大的數位藝術工具！";
+	day1[11].to =	1313857800;
+	day1[11].detail =	"Wayland and EGL | 自由軟體授權資訊的標示與SPDX | 使用 Jenkins 持續集成與發佈 Android 應用程式";
 	
 	day1[12].name =	"議程#6";
-	day1[12].to =	1281803400;
-	day1[12].detail =	"Frontend Development Enviornment | Ensuring Freedom of Action in Free Software Through Collaboration & Partnership | 自由軟體於互動技術";
+	day1[12].to =	1313859600;
+	day1[12].detail =	"開放電腦計畫 | Contribute to Linux Kernel | LibreOffice 在地化 - 談 LibreOffice 歷史與臺灣區發展困境 | Now.in 背後的技術 - Python軍火庫";
 	
 	day1[13].name =	"議程#7";
-	day1[13].to =	1281805200;
-	day1[13].detail =	"HTML5 電子書閱讀器 | GNU GPL Compliance in Embedded Devices | 以中文的名义，融入开源世界 | 我是 Programmer　我也想當 Musician";
+	day1[13].to =	1313861400;
+	day1[13].detail =	"Liquid Galaxy | Device Tree on ARM | OpenOffice.org 的魔術沙盒—繽紛的零 | OpenJDK 7: The universal language runtime";
 	
-	day1[14].name =	"議程#8";
-	day1[14].to =	1281807000;
-	day1[14].detail =	"Jetpack SDK: 瀏覽器擴充套件的新可能性 | Implementation of a FOSS License Compliance Program | 由馬鈴薯小子看軟體在地化 | Elements of Typographics Freedom";
+	day1[14].name =	"閃電秀";
+	day1[14].to =	1313863200;
+	day1[14].detail =	"Lightning Talk Speakers";
 	
-	day1[15].name =	"Lightning";
-	day1[15].to =	1281811500;
-	day1[15].detail =	"Lightning Talks by COSCUP / GNOME.Asia All Star";
+	day1[15].name =	"宣佈 BOF";
+	day1[15].to =	1313864100;
+	day1[15].detail =	"COSCUP Organizer";
 	
-	day1[16].name =	"休息";
-	day1[16].to =	1281812400;
-	day1[16].detail =	"休息一下吧！";
+	day1[16].name =	"BoF, Birds of a Feather";
+	day1[16].to =	1313874000;
+	day1[16].detail =	"BoF Organizers";
 	
-	day1[17].name =	"BoF";
-	day1[17].to =	1281819600;
-	day1[17].detail =	"Birds Of a Feather";
-
 	
 	
 	for(var i=0; i<=15; i++){
 		day2[i] = new Object();
 	}
 	
-	day2[0].name = "大會報告";
-	day2[0].from = 	1281863700;
-	day2[0].to = 		1281864600;
-	day2[0].detail =	"Announcement";
+	day2[0].name = "報到";
+	day2[0].from = 	1313914500;
+	day2[0].to = 		1313918100;
+	day2[0].detail =	"會眾報到";
 	
-	day2[1].name = "全場大演講#1";
-	day2[1].to = 		1281868200;
-	day2[1].detail = "Road to Gnome3";
+	day2[1].name = "大會報告";
+	day2[1].to = 		1313919000;
+	day2[1].detail = "COSCUP Organizer";
 	
-	day2[2].name = "休息#1";
-	day2[2].to = 		1281870000;
-	day2[2].detail = "休息一下，吃個點心吧！";
+	day2[2].name = "全場大演講#3";
+	day2[2].to = 		1313922600;
+	day2[2].detail = "Keynote: 0xlab 開放原始碼作為新事業：台灣本土經驗談";
 	
-	day2[3].name =	"議程#1";
-	day2[3].to =		1281871800;
-	day2[3].detail =	"Debugging: Linux Kernel by Ftrace | Introducing GStreamer, the Media Framework on GNU/Linux | Building and Using a Memory Profiler | How to Become a Debian Developer";
+	day2[3].name =	"休息";
+	day2[3].to =		1313924400;
+	day2[3].detail =	"休息一下吧！";
 	
-	day2[4].name =	"議程#2";
-	day2[4].to =		1281873600;
-	day2[4].detail = "ScalaTest－連貓都會的單元測試與 BDD | GNOME Build Environment on Solaris | xPad — Building Simple Tablet OS with Gtk/WebKit | Ubuntu Kernel Factory";
+	day2[4].name =	"議程#8";
+	day2[4].to =		1313926200;
+	day2[4].detail = "HTML5 and Friends: intelligence client side | 0xlab : Android 自動化測試與 QA 輔助工具 | SVG 和 OpenVG 的實機範例 | Unconference";
 	
-	day2[5].name =	"午餐";
-	day2[5].to = 		1281877200;
-	day2[5].detail =	"吃午餐的時間又到了！";
+	day2[5].name =	"議程#9";
+	day2[5].to = 		1313928000;
+	day2[5].detail =	"Testdroid - Test And Promote Your Android | AndroidVG: The power of OpenVG on Android | Unconference";
 	
-	day2[6].name =	"議程#3";
-	day2[6].to =		1281879000;
-	day2[6].detail =	"Exploring New Paradigms of Computing for GNOME | Bugzilla, Bug squad and GNOME 3 | The Culture of Sharing | Android Game Engine 比較";
+	day2[6].name =	"議程#10";
+	day2[6].to =		1313929800;
+	day2[6].detail =	"Yahoo: 無名小站的行動應用服務 (Mobile service)與實作經驗分享 | How to prevent fragmentation using Fragment | Programming for the Future, Introduction to the Actor Model and Akka Framework | Unconference";
 	
-	day2[7].name =	"議程#4";
-	day2[7].to =		1281880800;
-	day2[7].detail =	"Adapting UCD for Open Source Software Development | App Engine 大爆料 | 經驗分享：Porting a New Architecture to OpenWrt Project";
+	day2[7].name =	"午餐";
+	day2[7].to =		1313935200;
+	day2[7].detail =	"來吃午餐囉！";
 	
-	day2[8].name = "議程#5";
-	day2[8].to =		1281882600;
-	day2[8].detail =	'Android UI Design Pattern | The NoSQL Movement: CouchDB as an example | Understanding Internals of WebKit/GTK+ | Be “Android”';
+	day2[8].name = "全場大演講#4";
+	day2[8].to =		1313938800;
+	day2[8].detail =	'HTC Keynote: Open Source at HTC: Beyond Android';
 	
-	day2[9].name =	"議程#6";
-	day2[9].to =		1281884400;
-	day2[9].detail ="Cloud Experience — from Google to Delta | Implementation of websocket server program | Have Fun on Andes Platform — Game Emulator an overview";
+	day2[9].name =	"休息";
+	day2[9].to =		1313940600;
+	day2[9].detail ="逛一下攤位吧！";
 	
-	day2[10].name = 	"休息#2";
-	day2[10].to =	1281886200;
-	day2[10].detail=	"Tea Break";
+	day2[10].name = 	"議程#11";
+	day2[10].to =	1313942400;
+	day2[10].detail=	"Kinect x Android x beagleboard-xM = Auto Chasing Turtle | PIXNET: Web Development on Cloud Platform | HTC: Mobile Services UI Test Automation Using Open Source Tools | Unconference ";
 	
-	day2[11].name = 	"議程#7";
-	day2[11].to =	1281888000;
-	day2[11].detail = 	"Building a Cloud Computing Platform by Using Open Source Software | Hybrid Desktop/Web applications with WebKitGTK+ | SFD 2010: Why and Where? | A Safe and Stateless Platform — Introduction to Google Chrome OS Security Model";
+	day2[11].name = 	"議程#12";
+	day2[11].to =	1313944200;
+	day2[11].detail = 	"Printing Solution on Android Platform | New Stage ，New Game -- 浅谈 HTML5游戏 在 移动平台的应用 | 淺談 GCC 編譯技術 - Break Compilation Boundaries with GCC | Unconference";
 	
-	day2[12].name =	"議程#8";
-	day2[12].to =	1281889800;
-	day2[12].detail =	"快速佈署叢集式的搜尋引擎 CrawlZilla | Javascript in Linux Desktop | 打造特製的 Android Toolchain";
+	day2[12].name =	"議程#13";
+	day2[12].to =	1313946000;
+	day2[12].detail =	"Porting android to brand-new CPU architecture | 讓 Django 專案直接開上GAE | KKBOX: 從一格空格說起... 淺談 debug | Unconference";
 	
-	day2[13].name =	"議程#9";
-	day2[13].to =	1281891600;
-	day2[13].detail = "Yahoo Traffic Server, a Powerful Cloud Gatekeeper | eekboard | GNOME in Asia | OsmocomBB: An Open Source GSM Baseband Firmware";
+	day2[13].name =	"議程#14";
+	day2[13].to =	1313947800;
+	day2[13].detail = "Android Open Accessory API and ADK | WAI-ARIA is more than accessibility | Trend Micro: 開源工具：好神的軟體養成計劃 | Unconference";
 	
-	day2[14].name = "議程#10";
-	day2[14].to =	1281893400;
-	day2[14].detail = 	"Solr on Cassandra | Debian Policy — 5.6.12 Version | Hosting GNOME.Asia is Fun! | Android-x86 Open Source Project";
+	day2[14].name = "閃電秀";
+	day2[14].to =	1313949600;
+	day2[14].detail = 	"Lightning Talk Speakers";
 	
-	day2[15].name = "閉幕";
-	day2[15].to = 	1281895200;
-	day2[15].detail =	"COSCUP / Gnome.Asia 閉幕";
+	day2[15].name = "閉幕式";
+	day2[15].to = 	1313950500;
+	day2[15].detail =	"COSCUP Organizer";
 	
 	arrangeEventTag(100, day1[0].from, day1[0].to, day1[0].name, day1[0].detail);
 	for(var i=1; i<day1.length; i++){
@@ -871,14 +879,17 @@ function pushEventTag(){
 }
 
 function footerSwitcher(){
-	if(footer_flag){
+	if(footer_flag == 0){
 		$("#footer > font").fadeOut(1000, 'linear', function(){
 		$("#footer").html('<font class="footer_text">快到我們的 <a href="http://coscup.org/2010" target="_blank">網站</a> / <a href="http://blog.coscup.org" target="_blank">部落格</a> / <a href="http://www.youtube.com/user/coscup2011" target="_blank">YouTube 頻道</a> / <a href="http://www.plurk.com/coscup" target="_blank">噗浪</a> / <a href="https://www.facebook.com/coscup">臉書</a> 逛逛吧！</font>');
 		});
-		footer_flag = 0;
-	}else{
-		$("#footer > font").fadeOut(1000, 'linear', function(){$("#footer").html('<font class="footer_text">We <font style="color: #FFCCFF;">(heart)</font> Open.</font>');});
 		footer_flag = 1;
+	}else if(footer_flag == 1){
+		$("#footer > font").fadeOut(1000, 'linear', function(){$("#footer").html('<font class="footer_text">We <font style="color: #FFCCFF;">(heart)</font> Open.</font>');});
+		footer_flag = 2;
+	}else if(footer_flag == 2){
+		$("#footer > font").fadeOut(1000, 'linear', function(){$("#footer").html('<font class="footer_text"><a href="http://coscup.org/cheese/2010">COSCUP Cheese 2010</a> 、 <a href="http://coscup.org/cheese/event">TOGETHER say Cheese!</a> 已經上線，歡迎參觀 :-) ！</font>');});
+		footer_flag = 0;
 	}
 }
 
@@ -1098,7 +1109,7 @@ function assignPhoto(){
 <div id="footer"><font class="footer_text">快到我們的 <a href="http://coscup.org/" target="_blank">網站</a> / <a href="http://blog.coscup.org" target="_blank">部落格</a> / <a href="http://www.youtube.com/user/coscup2011" target="_blank">YouTube 頻道</a> / <a href="http://www.plurk.com/coscup" target="_blank">噗浪</a> / <a href="https://www.facebook.com/coscup">臉書</a> 逛逛吧！</font></div>
 </div>
 <div id="photobox"><div id="innerbanner"></div><div id="innerbox"></div><div id="desc"></div><div id="close" onclick="closePhoto()">X</div><div id="gplusone"><div id="gbutton"></div><a id="plurk" href=""><img style="position:relative; top: 5px" width="32" src="<?php echo base_url();?>image/plurk.png" /></a></div><div id="photo_link" onclick="selectLink();"><img src="<?php echo base_url();?>image/at.png" />分享起司連結<input id="shareLink"  /></div></div>
-<div id="getInvolvedInfo"><p>融入起司非常容易，只要 <a href="http://picasaweb.google.com" target="_blank" style="color:#FFF">上傳你在 COSCUP 照的照片到 Picasa</a> 並且加上 #COSCUP2010 標籤，然後這張照片就自然而然地與 COSCUP Cheese 混合了！</p><p>你也可以透過 Google +1 按鈕為其他的起司照片評分。</p><p>*請注意，由於我們對照片數量做了上限限制，您上傳的照片有可能不會被顯示出來。</p><div class='select_option' style='clear: both;text-align: center;width: 80px; margin-top: 20px' onclick='closeGetInvolved();'>關閉</div></div>
+<div id="getInvolvedInfo"><p>融入起司非常容易，只要 <a href="http://picasaweb.google.com" target="_blank" style="color:#FFF">上傳你在 COSCUP 照的照片到 Picasa</a> 並且加上 #COSCUP2011 標籤，然後這張照片就自然而然地與 COSCUP Cheese 混合了！</p><p>你也可以透過 Google +1 按鈕為其他的起司照片評分。</p><p>*請注意，由於我們對照片數量做了上限限制，您上傳的照片有可能不會被顯示出來。</p><div class='select_option' style='clear: both;text-align: center;width: 80px; margin-top: 20px' onclick='closeGetInvolved();'>關閉</div></div>
 <div id="timeselect"><div id="Day1" class="day1"></div><div id="Day2" class="day2"></div></div>
 <div id="langselect"></div>
 <div id="wrap2"></div>
